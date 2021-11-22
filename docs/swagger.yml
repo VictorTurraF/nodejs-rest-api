@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: Trabalho SD - Webservice/API REST
+  description: Trabalho de sistemas distribuidos.
+  version: 0.0.1
+servers:
+  - url: http://localhost:3333/api
+tags:
+  - name: Alunos
+    description: Endpoint de Alunos
+components:
+  schemas:
+    Aluno:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        curso:
+          type: string
+        cidade:
+          type: string
+        ra: 
+          type: integer
+        cpf: 
+          type: integer
+        semestre: 
+          type: integer
+    AlunoRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        curso:
+          type: string
+        cidade:
+          type: string
+        ra: 
+          type: integer
+        cpf: 
+          type: integer
+        semestre: 
+          type: integer
+    Erro:
+      type: object
+      properties:
+        message:
+          type: string
+    ValidationItem:
+      type: object
+      properties:
+        value:
+          type: string
+        msg: 
+          type: string
+        param:
+          type: string
+        location:
+          type: string
+    ValidationError:
+      type: array
+      items:
+        $ref: "#/components/schemas/ValidationItem"
+
+paths:
+  /students:
+    get:
+      tags:
+      - Alunos
+      description: Lista todos os alunos cadastrados
+      responses:
+        200:
+          description: 'Ok'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aluno'
+    post:
+      tags:
+      - Alunos
+      description: Cria um novo aluno
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlunoRequest"
+      responses:
+        422:
+          description: A requisição não satisfaz a devida validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        201:
+          description: 'Criado com sucesso'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Aluno"
+  /students/{student_id}:
+    get:  
+      tags:
+      - Alunos
+      description: Lista um aluno especifico
+      parameters:
+      - name: 'student_id'
+        in: path
+        required: true
+        description: Id do estudante que se quer listar
+        schema:
+          type: string
+      responses:
+        404:
+          description: 'Aluno não encontrado'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erro"
+        200:
+          description: 'Ok'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Aluno"
+    put:
+      tags:
+      - Alunos
+      description: Atualiza um aluno especifico
+      parameters:
+      - name: 'student_id'
+        in: path
+        required: true
+        description: Id do estudante que se quer atualizar
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref:  "#/components/schemas/AlunoRequest"
+      responses:
+        404:
+          description: 'Aluno não encontrado'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erro"
+        200:
+          description: 'Ok'
+          content:
+            application/json:
+              schema:
+                $ref:  "#/components/schemas/Aluno"
+    delete:
+      tags:
+      - Alunos
+      description: Exclui um aluno específico
+      parameters:
+      - name: 'student_id'
+        in: path
+        required: true
+        description: Id do estudante que se quer excluir
+        schema:
+          type: string
+      responses:
+        404:
+          description: 'Aluno não encontrado'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erro"
+        204:
+          description: 'No Content'

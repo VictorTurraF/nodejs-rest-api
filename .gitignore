@@ -1,0 +1,5 @@
+node_modules
+
+# Para não ter problemas com diferentes packages runners
+yarn.lock
+package-lock.json
