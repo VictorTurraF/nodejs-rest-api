@@ -24,3 +24,6 @@ O servidor irá escutar a porta `3333`.
 A url da api fica em `http://localhost:3333/api`
 
 ### Documentação
+Arquivo [swagger.yml](https://raw.githubusercontent.com/VictorTurraF/nodejs-rest-api/main/docs/swagger.yml)
+
+Arquivo [postman_collection.json](https://raw.githubusercontent.com/VictorTurraF/nodejs-rest-api/main/docs/postman_collection.json)
